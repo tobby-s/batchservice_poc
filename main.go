@@ -30,7 +30,7 @@ func (c *client) GetRequest(cusId string) string {
 	return fmt.Sprintf("sub %s", cusId)
 }
 
-// public interface to get sub without having to care about internal batching implementation
+// public interface method to get sub without having to care about internal batching implementation
 func (s *service) GetSub(cusId string) *Response {
 	v, ok := s.requests.LoadOrStore(cusId, make(chan chan *Response, 100))
 	k := v.(chan chan *Response)
