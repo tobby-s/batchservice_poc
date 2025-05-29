@@ -132,5 +132,5 @@ func main() {
 
 // sub x = one GetSub method invocation
 // processing = one slow call to external api
-// this allows multiple invocations of the resolver to wait for the first request's
+// this allows multiple invocations of the resolver to wait for the first request (per id)'s
 // response then return the same result to each individual goroutine
