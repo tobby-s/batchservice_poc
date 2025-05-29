@@ -100,3 +100,37 @@ func main() {
 	// after "x" is done, making another getsub request with x will make another 'processing x' line
 	fmt.Println(svc.GetSub("x").Msg)
 }
+
+// output from go run main.go:
+// processing y...
+// processing x...
+// request for x closed
+// sub x
+// request for y closed
+// sub y
+// sub x
+// sub x
+// sub x
+// sub x
+// sub y
+// sub y
+// sub y
+// sub y
+// sub y
+// sub y
+// sub y
+// sub y
+// sub y
+// sub x
+// sub x
+// sub x
+// sub x
+// sub x
+// processing x...
+// request for x closed
+// sub x
+
+// sub x = one GetSub method invocation
+// processing = one slow call to external api
+// this allows multiple invocations of the resolver to wait for the first request's
+// response then return the same result to each individual goroutine
