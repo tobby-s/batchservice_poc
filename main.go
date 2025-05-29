@@ -46,14 +46,16 @@ func (s *service) GetSub(cusId string) *Response {
 				}
 			}()
 			l := s.client.GetRequest(cusId)
-			// when response arrives, close channel and send response to all the waiting goroutines
+			// when response arrives, close channel, send response to all the waiting goroutines, then delete key from syncmap
 			res := &Response{l}
 			fmt.Printf("request for %s closed\n", cusId)
 			close(reqs)
-			s.requests.Delete(cusId)
+
 			for ch := range reqs {
 				ch <- res
 			}
+
+			s.requests.Delete(cusId)
 		}(k)
 	}
 
